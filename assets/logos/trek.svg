@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60">
+    <rect width="200" height="60" fill="transparent" />
+    <path d="M20 45 L35 15 L50 45 L35 35 Z" fill="#1976D2" />
+    <text x="65" y="40" font-family="Arial, sans-serif" font-weight="900" font-size="28" fill="#333" letter-spacing="2">TREK</text>
+</svg>

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60">
+    <rect width="200" height="60" fill="transparent" />
+    <circle cx="35" cy="30" r="15" fill="none" stroke="#388E3C" stroke-width="6" />
+    <text x="65" y="40" font-family="Arial, sans-serif" font-weight="900" font-size="28" fill="#333" letter-spacing="2">GIANT</text>
+</svg>

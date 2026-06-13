@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 100">
+    <!-- Black Top -->
+    <path d="M30 15 L220 15 C235 15 240 25 235 40 L220 60 L15 60 Z" fill="#000000" />
+    <!-- Yellow Bottom -->
+    <path d="M15 60 L220 60 L205 85 C200 95 185 95 170 95 L20 95 C5 95 5 85 15 60 Z" fill="#FFF200" />
+    <!-- Black Base Line -->
+    <path d="M20 95 L170 95 C185 95 195 90 200 80 L200 95 C195 100 180 105 160 105 L15 105 Z" fill="#000000" />
+    
+    <text x="45" y="52" font-family="'Arial Black', sans-serif" font-weight="900" font-style="italic" font-size="42" fill="#FFFFFF" letter-spacing="-1">MACK</text>
+    <text x="35" y="92" font-family="'Arial Black', sans-serif" font-weight="900" font-style="italic" font-size="42" fill="#000000" letter-spacing="-1">CYCLE</text>
+    
+    <text x="180" y="90" font-family="Arial, sans-serif" font-weight="900" font-style="italic" font-size="10" fill="#000000" transform="rotate(-90 180 90)">&amp; FITNESS</text>
+    <text x="35" y="102" font-family="Arial, sans-serif" font-weight="bold" font-size="6" fill="#FFFFFF" letter-spacing="3">MIAMI, FL &#x2022; SINCE 1957</text>
+</svg>

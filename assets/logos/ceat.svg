@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60">
+    <text x="40" y="45" font-family="Arial, sans-serif" font-weight="900" font-size="40" fill="#005A9C">C</text>
+    <text x="70" y="45" font-family="Arial, sans-serif" font-weight="900" font-size="40" fill="#005A9C">E</text>
+    <!-- The Orange A (3 horizontal bars) -->
+    <rect x="100" y="17" width="22" height="6" fill="#F47B20" />
+    <rect x="100" y="27" width="22" height="6" fill="#F47B20" />
+    <rect x="100" y="37" width="22" height="6" fill="#F47B20" />
+    <text x="130" y="45" font-family="Arial, sans-serif" font-weight="900" font-size="40" fill="#005A9C">T</text>
+</svg>

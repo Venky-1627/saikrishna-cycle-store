@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60">
+    <!-- Blue circle badge -->
+    <circle cx="35" cy="20" r="12" fill="none" stroke="#1A2645" stroke-width="4" />
+    <text x="35" y="25" font-family="Arial, sans-serif" font-weight="900" font-size="12" fill="#D31224" text-anchor="middle">H</text>
+    <text x="35" y="45" font-family="Arial, sans-serif" font-weight="bold" font-size="8" fill="#D31224" text-anchor="middle">HERO</text>
+    <!-- HERO Text -->
+    <text x="60" y="35" font-family="Arial, sans-serif" font-weight="900" font-size="34" fill="#D31224" letter-spacing="-1">HERO</text>
+    <text x="60" y="50" font-family="Arial, sans-serif" font-weight="900" font-style="italic" font-size="12" fill="#D31224">CYCLES</text>
+    <text x="115" y="50" font-family="cursive, Arial, sans-serif" font-weight="bold" font-style="italic" font-size="12" fill="#1A2645">World 1</text>
+</svg>

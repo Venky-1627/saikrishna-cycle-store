@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60">
+    <rect width="200" height="60" fill="transparent" />
+    <path d="M20 30 Q35 10 50 30 T80 30" fill="none" stroke="#1976D2" stroke-width="5" />
+    <text x="95" y="40" font-family="Arial, sans-serif" font-weight="900" font-size="28" fill="#333" letter-spacing="1">RALEIGH</text>
+</svg>
