@@ -144,6 +144,8 @@ async function initApp() {
                     const lowerUser = rawUsername.toLowerCase();
                     const email = lowerUser.includes('@') ? lowerUser : `${lowerUser}@admin.com`;
 
+                    console.log("[AUTH DEBUG] Attempting login with email:", email);
+
                     // Disable button while authenticating
                     const submitBtn = loginForm.querySelector('button[type="submit"]');
                     const originalText = submitBtn ? submitBtn.innerText : "Secure Sign In";
@@ -153,34 +155,39 @@ async function initApp() {
                     }
 
                     try {
+                        console.log("[AUTH DEBUG] Calling supabase.auth.signInWithPassword...");
                         const { data, error } = await supabase.auth.signInWithPassword({
                             email: email,
                             password: password,
                         });
 
-                        if (error) {
-                            // Show user-friendly error messages
-                            let friendlyMsg = "Invalid username or password.";
-                            if (error.message?.includes("Email not confirmed")) {
-                                friendlyMsg = "Your account email has not been confirmed.";
-                            } else if (error.status === 429 || error.message?.includes("rate")) {
-                                friendlyMsg = "Too many login attempts. Please wait a moment.";
-                            }
+                        console.log("[AUTH DEBUG] Response - data:", data, "error:", error);
 
+                        if (error) {
+                            // Show the REAL Supabase error so we can debug
+                            const rawMsg = error.message || JSON.stringify(error);
+                            console.error("[AUTH DEBUG] Login error:", rawMsg, "Status:", error.status);
                             if (loginError) {
-                                loginError.innerText = friendlyMsg;
+                                loginError.innerText = "Login failed: " + rawMsg;
                                 loginError.style.display = 'block';
                             }
                         } else if (data?.session) {
+                            console.log("[AUTH DEBUG] Login SUCCESS! Session obtained.");
                             // Supabase Auth succeeded — reveal admin dashboard
                             loginOverlay.style.display = 'none';
                             adminDashboard.style.display = 'block';
                             await renderAdminList();
+                        } else {
+                            console.warn("[AUTH DEBUG] No error but also no session:", data);
+                            if (loginError) {
+                                loginError.innerText = "Login returned no session. Check Supabase config.";
+                                loginError.style.display = 'block';
+                            }
                         }
                     } catch (err) {
-                        console.error("Authentication error:", err);
+                        console.error("[AUTH DEBUG] Exception:", err);
                         if (loginError) {
-                            loginError.innerText = "Network error. Please check your connection.";
+                            loginError.innerText = "Exception: " + (err.message || err);
                             loginError.style.display = 'block';
                         }
                     } finally {
