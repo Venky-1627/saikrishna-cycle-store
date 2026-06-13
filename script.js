@@ -20,7 +20,7 @@ async function initApp() {
             prices: { '14"': 1299, '16"': 1499, '20"': 1699 },
             description: "Ultra-lightweight carbon frame designed for competitive road racing and maximum aerodynamics.",
             image: "https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?q=80&w=800&auto=format&fit=crop",
-            inStock: true
+            instock: true
         },
         {
             id: 2,
@@ -28,7 +28,7 @@ async function initApp() {
             prices: { '14"': 899, '16"': 999, '20"': 1099 },
             description: "Sleek city bike with an upright riding position, integrated lights, and puncture-resistant tires.",
             image: "https://images.unsplash.com/photo-1576435728678-68dd0f08ce13?q=80&w=800&auto=format&fit=crop",
-            inStock: true
+            instock: true
         },
         {
             id: 3,
@@ -36,7 +36,7 @@ async function initApp() {
             prices: { '14"': 1099, '16"': 1199, '20"': 1399 },
             description: "Take the road less traveled. Features wide tires, disc brakes, and a durable alloy frame.",
             image: "https://images.unsplash.com/photo-1511994298241-608e28f14fde?q=80&w=800&auto=format&fit=crop",
-            inStock: true
+            instock: true
         }
     ];
 
@@ -62,7 +62,7 @@ async function initApp() {
                         prices: b.prices,
                         description: b.description,
                         image: b.image,
-                        inStock: b.inStock
+                        instock: b.instock
                     }]);
                 }
                 const { data: newData } = await supabaseClient.from('bikes').select('*').order('id', { ascending: false });
@@ -144,8 +144,6 @@ async function initApp() {
                     const lowerUser = rawUsername.toLowerCase();
                     const email = lowerUser.includes('@') ? lowerUser : `${lowerUser}@admin.com`;
 
-                    console.log("[AUTH DEBUG] Attempting login with email:", email);
-
                     // Disable button while authenticating
                     const submitBtn = loginForm.querySelector('button[type="submit"]');
                     const originalText = submitBtn ? submitBtn.innerText : "Secure Sign In";
@@ -155,39 +153,31 @@ async function initApp() {
                     }
 
                     try {
-                        console.log("[AUTH DEBUG] Calling supabaseClient.auth.signInWithPassword...");
                         const { data, error } = await supabaseClient.auth.signInWithPassword({
                             email: email,
                             password: password,
                         });
 
-                        console.log("[AUTH DEBUG] Response - data:", data, "error:", error);
-
                         if (error) {
-                            // Show the REAL Supabase error so we can debug
-                            const rawMsg = error.message || JSON.stringify(error);
-                            console.error("[AUTH DEBUG] Login error:", rawMsg, "Status:", error.status);
+                            let friendlyMsg = "Invalid username or password.";
+                            if (error.message?.includes("Email not confirmed")) {
+                                friendlyMsg = "Your account email has not been confirmed.";
+                            } else if (error.status === 429 || error.message?.includes("rate")) {
+                                friendlyMsg = "Too many login attempts. Please wait a moment.";
+                            }
                             if (loginError) {
-                                loginError.innerText = "Login failed: " + rawMsg;
+                                loginError.innerText = friendlyMsg;
                                 loginError.style.display = 'block';
                             }
                         } else if (data?.session) {
-                            console.log("[AUTH DEBUG] Login SUCCESS! Session obtained.");
                             // Supabase Auth succeeded — reveal admin dashboard
                             loginOverlay.style.display = 'none';
                             adminDashboard.style.display = 'block';
                             await renderAdminList();
-                        } else {
-                            console.warn("[AUTH DEBUG] No error but also no session:", data);
-                            if (loginError) {
-                                loginError.innerText = "Login returned no session. Check Supabase config.";
-                                loginError.style.display = 'block';
-                            }
                         }
                     } catch (err) {
-                        console.error("[AUTH DEBUG] Exception:", err);
                         if (loginError) {
-                            loginError.innerText = "Exception: " + (err.message || err);
+                            loginError.innerText = "Network error. Please check your connection.";
                             loginError.style.display = 'block';
                         }
                     } finally {
@@ -235,7 +225,7 @@ async function initApp() {
                             </div>
                         </div>
                     </div>
-                    ${bike.inStock === false ? `<div class="out-of-stock-badge">Out of Stock</div>` : ''}
+                    ${bike.instock === false ? `<div class="out-of-stock-badge">Out of Stock</div>` : ''}
                 </div>
             `;
             mainProductGrid.insertAdjacentHTML('beforeend', cardHTML);
@@ -271,6 +261,16 @@ async function initApp() {
     const btnOpenAdd = document.getElementById('btn-open-add');
     const btnCloseModal = document.getElementById('btn-close-modal');
     const adminForm = document.getElementById('add-cycle-form');
+
+    // Logout button handler
+    const btnLogout = document.getElementById('btn-logout');
+    if (btnLogout && supabaseClient) {
+        btnLogout.addEventListener('click', async () => {
+            await supabaseClient.auth.signOut();
+            if (loginOverlay) loginOverlay.style.display = 'flex';
+            if (adminDashboard) adminDashboard.style.display = 'none';
+        });
+    }
     
     // Form Inputs
     const idInput = document.getElementById('cycle-id');
@@ -353,7 +353,7 @@ async function initApp() {
                 if (!hasSizes) return alert("Please select at least one size and enter its price.");
 
                 const editId = idInput.value;
-                const inStock = statusInput.value === 'true';
+                const instock = statusInput.value === 'true';
 
                 // Disable submit button to prevent double submits
                 const submitBtn = adminForm.querySelector('button[type="submit"]');
@@ -370,7 +370,7 @@ async function initApp() {
                             name: nameInput.value,
                             prices: prices,
                             description: descInput.value,
-                            inStock: inStock
+                            instock: instock
                         };
                         if (currentBase64Image) {
                             updateData.image = currentBase64Image;
@@ -397,7 +397,7 @@ async function initApp() {
                                 prices: prices,
                                 description: descInput.value,
                                 image: currentBase64Image,
-                                inStock: inStock
+                                instock: instock
                             }]);
                         } else {
                             console.warn("Offline mode: Database insert skipped.");
@@ -429,7 +429,7 @@ async function initApp() {
             const sizes = Object.keys(bike.prices || {});
             const displayPrice = sizes.length > 1 ? `From ₹${bike.prices[sizes[0]]}` : (sizes.length === 1 ? `₹${bike.prices[sizes[0]]}` : 'No price');
 
-            const stockBadge = bike.inStock === false ? `<span style="color: #ef4444; font-size: 0.8rem; font-weight: 600; padding: 2px 8px; background: #fee2e2; border-radius: 12px; margin-left: 10px;">Out of Stock</span>` : '';
+            const stockBadge = bike.instock === false ? `<span style="color: #ef4444; font-size: 0.8rem; font-weight: 600; padding: 2px 8px; background: #fee2e2; border-radius: 12px; margin-left: 10px;">Out of Stock</span>` : '';
 
             const itemHTML = `
                 <div class="admin-list-item">
@@ -480,7 +480,7 @@ async function initApp() {
                 if (idInput) idInput.value = bike.id;
                 if (nameInput) nameInput.value = bike.name;
                 if (descInput) descInput.value = bike.description;
-                if (statusInput) statusInput.value = bike.inStock !== false ? 'true' : 'false';
+                if (statusInput) statusInput.value = bike.instock !== false ? 'true' : 'false';
                 
                 // Show current image preview
                 if (imagePreview) {
