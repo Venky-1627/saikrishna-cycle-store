@@ -2,10 +2,10 @@ const supabaseUrl = 'https://antvfvlzmuotlfmlkysm.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFudHZmdmx6bXVvdGxmbWxreXNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEzMTIzNTMsImV4cCI6MjA5Njg4ODM1M30.GxjrLJ1iKPZ7IHH1_iDlwD79ByfVFRvoHdorkEr0lIA';
 
 // Initialize Supabase safely. If the CDN fails or is blocked, this prevents the whole script from crashing.
-let supabase = null;
+let supabaseClient = null;
 try {
     if (window.supabase) {
-        supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+        supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
     }
 } catch (e) {
     console.error("Failed to initialize Supabase. Running in offline/fallback mode.", e);
@@ -41,13 +41,13 @@ async function initApp() {
     ];
 
     async function getBikes() {
-        if (!supabase) {
+        if (!supabaseClient) {
             console.warn("Supabase is disconnected. Using default fallback data.");
             return DEFAULT_BIKES;
         }
 
         try {
-            const { data, error } = await supabase.from('bikes').select('*').order('id', { ascending: false });
+            const { data, error } = await supabaseClient.from('bikes').select('*').order('id', { ascending: false });
             if (error) {
                 console.error("Error fetching bikes:", error);
                 return DEFAULT_BIKES;
@@ -57,7 +57,7 @@ async function initApp() {
             if (!data || data.length === 0) {
                 console.log("Seeding default bikes to Supabase...");
                 for (const b of DEFAULT_BIKES) {
-                    await supabase.from('bikes').insert([{
+                    await supabaseClient.from('bikes').insert([{
                         name: b.name,
                         prices: b.prices,
                         description: b.description,
@@ -65,7 +65,7 @@ async function initApp() {
                         inStock: b.inStock
                     }]);
                 }
-                const { data: newData } = await supabase.from('bikes').select('*').order('id', { ascending: false });
+                const { data: newData } = await supabaseClient.from('bikes').select('*').order('id', { ascending: false });
                 return newData && newData.length > 0 ? newData : DEFAULT_BIKES;
             }
             return data;
@@ -83,7 +83,7 @@ async function initApp() {
 
     if (loginOverlay && adminDashboard) {
         // Guard: Supabase MUST be available for admin access
-        if (!supabase) {
+        if (!supabaseClient) {
             if (loginError) {
                 loginError.innerText = "Authentication service unavailable. Please try again later.";
                 loginError.style.display = 'block';
@@ -96,7 +96,7 @@ async function initApp() {
         } else {
             // Check for an existing valid session
             try {
-                const { data, error } = await supabase.auth.getSession();
+                const { data, error } = await supabaseClient.auth.getSession();
                 if (!error && data?.session) {
                     // Session exists — verify the token hasn't expired
                     const expiresAt = data.session.expires_at; // Unix timestamp in seconds
@@ -108,7 +108,7 @@ async function initApp() {
                         await renderAdminList();
                     } else {
                         // Token expired — force sign out and show login
-                        await supabase.auth.signOut();
+                        await supabaseClient.auth.signOut();
                     }
                 }
             } catch (err) {
@@ -116,7 +116,7 @@ async function initApp() {
             }
 
             // Listen for auth state changes (handles token refresh, sign out in other tabs, etc.)
-            supabase.auth.onAuthStateChange((event, session) => {
+            supabaseClient.auth.onAuthStateChange((event, session) => {
                 if (event === 'SIGNED_OUT' || !session) {
                     loginOverlay.style.display = 'flex';
                     adminDashboard.style.display = 'none';
@@ -155,8 +155,8 @@ async function initApp() {
                     }
 
                     try {
-                        console.log("[AUTH DEBUG] Calling supabase.auth.signInWithPassword...");
-                        const { data, error } = await supabase.auth.signInWithPassword({
+                        console.log("[AUTH DEBUG] Calling supabaseClient.auth.signInWithPassword...");
+                        const { data, error } = await supabaseClient.auth.signInWithPassword({
                             email: email,
                             password: password,
                         });
@@ -376,8 +376,8 @@ async function initApp() {
                             updateData.image = currentBase64Image;
                         }
 
-                        if (supabase) {
-                            await supabase.from('bikes').update(updateData).eq('id', editId);
+                        if (supabaseClient) {
+                            await supabaseClient.from('bikes').update(updateData).eq('id', editId);
                         } else {
                             console.warn("Offline mode: Database update skipped.");
                         }
@@ -391,8 +391,8 @@ async function initApp() {
                             return alert("Please upload an image.");
                         }
                         
-                        if (supabase) {
-                            await supabase.from('bikes').insert([{
+                        if (supabaseClient) {
+                            await supabaseClient.from('bikes').insert([{
                                 name: nameInput.value,
                                 prices: prices,
                                 description: descInput.value,
