@@ -75,86 +75,122 @@ async function initApp() {
         }
     }
 
-    // --- Authentication Logic (`admin.html`) ---
+    // --- Secure Authentication Logic (`admin.html`) ---
     const loginOverlay = document.getElementById('login-overlay');
     const adminDashboard = document.getElementById('admin-dashboard');
     const loginForm = document.getElementById('login-form');
     const loginError = document.getElementById('login-error');
 
     if (loginOverlay && adminDashboard) {
-        // Check current session safely
-        let currentSession = null;
-        if (supabase) {
-            try {
-                const { data } = await supabase.auth.getSession();
-                currentSession = data?.session;
-            } catch (err) {
-                console.warn("Could not retrieve session (local file restrictions):", err);
+        // Guard: Supabase MUST be available for admin access
+        if (!supabase) {
+            if (loginError) {
+                loginError.innerText = "Authentication service unavailable. Please try again later.";
+                loginError.style.display = 'block';
             }
-        }
+            // Disable the form — no fallback allowed
+            if (loginForm) {
+                const submitBtn = loginForm.querySelector('button[type="submit"]');
+                if (submitBtn) submitBtn.disabled = true;
+            }
+        } else {
+            // Check for an existing valid session
+            try {
+                const { data, error } = await supabase.auth.getSession();
+                if (!error && data?.session) {
+                    // Session exists — verify the token hasn't expired
+                    const expiresAt = data.session.expires_at; // Unix timestamp in seconds
+                    const now = Math.floor(Date.now() / 1000);
 
-        if (currentSession) {
-            loginOverlay.style.display = 'none';
-            adminDashboard.style.display = 'block';
-            await renderAdminList();
-        }
-
-        if (loginForm) {
-            loginForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                
-                const rawUsername = document.getElementById('login-email').value.trim();
-                const password = document.getElementById('login-password').value.trim(); // Trim spaces!
-                if (loginError) loginError.style.display = 'none';
-                
-                // Allow the user to type just "SAI" or "Laxman" or "SAI@admin.com" (case-insensitive)
-                let lowerUser = rawUsername.toLowerCase();
-                const email = lowerUser.includes('@') ? lowerUser : `${lowerUser}@admin.com`;
-                
-                if (lowerUser.endsWith('@admin.com')) {
-                    lowerUser = lowerUser.replace('@admin.com', '');
-                }
-
-                // Try Supabase Auth first
-                let authError = null;
-                if (supabase) {
-                    try {
-                        const { error } = await supabase.auth.signInWithPassword({
-                            email: email,
-                            password: password,
-                        });
-                        authError = error;
-                    } catch (err) {
-                        console.warn("Supabase Auth exception:", err);
-                        authError = err; // Force it to hit the fallback
-                    }
-                } else {
-                    authError = new Error("Cannot reach Supabase. Checking offline credentials.");
-                }
-
-                if (authError) {
-                    // Hardcoded Fallback (in case Supabase Auth failed due to local files or missing setup)
-                    if ((lowerUser === 'sai' && password === 'Sai@6844') || 
-                        (lowerUser === 'laxman' && password === 'Laxman@9126')) {
-                        console.log("Supabase Auth failed, but hardcoded credentials matched. Bypassing...");
+                    if (expiresAt && expiresAt > now) {
                         loginOverlay.style.display = 'none';
                         adminDashboard.style.display = 'block';
                         await renderAdminList();
                     } else {
-                        const errorMsg = authError.message || "Network/Local Storage Error";
-                        alert("Login Failed: " + errorMsg + "\n\n(Check your credentials or Supabase setup)");
-                        if (loginError) {
-                            loginError.innerText = errorMsg;
-                            loginError.style.display = 'block';
-                        }
+                        // Token expired — force sign out and show login
+                        await supabase.auth.signOut();
                     }
-                } else {
-                    // Supabase Auth Succeeded
-                    loginOverlay.style.display = 'none';
-                    adminDashboard.style.display = 'block';
-                    await renderAdminList();
+                }
+            } catch (err) {
+                console.warn("Session check failed:", err);
+            }
+
+            // Listen for auth state changes (handles token refresh, sign out in other tabs, etc.)
+            supabase.auth.onAuthStateChange((event, session) => {
+                if (event === 'SIGNED_OUT' || !session) {
+                    loginOverlay.style.display = 'flex';
+                    adminDashboard.style.display = 'none';
                 }
             });
+
+            // Handle login form submission
+            if (loginForm) {
+                loginForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    if (loginError) loginError.style.display = 'none';
+
+                    const rawUsername = document.getElementById('login-email').value.trim();
+                    const password = document.getElementById('login-password').value.trim();
+
+                    if (!rawUsername || !password) {
+                        if (loginError) {
+                            loginError.innerText = "Please enter both username and password.";
+                            loginError.style.display = 'block';
+                        }
+                        return;
+                    }
+
+                    // Allow the user to type just "SAI" or "SAI@admin.com" (case-insensitive)
+                    const lowerUser = rawUsername.toLowerCase();
+                    const email = lowerUser.includes('@') ? lowerUser : `${lowerUser}@admin.com`;
+
+                    // Disable button while authenticating
+                    const submitBtn = loginForm.querySelector('button[type="submit"]');
+                    const originalText = submitBtn ? submitBtn.innerText : "Secure Sign In";
+                    if (submitBtn) {
+                        submitBtn.innerText = "Signing in...";
+                        submitBtn.disabled = true;
+                    }
+
+                    try {
+                        const { data, error } = await supabase.auth.signInWithPassword({
+                            email: email,
+                            password: password,
+                        });
+
+                        if (error) {
+                            // Show user-friendly error messages
+                            let friendlyMsg = "Invalid username or password.";
+                            if (error.message?.includes("Email not confirmed")) {
+                                friendlyMsg = "Your account email has not been confirmed.";
+                            } else if (error.status === 429 || error.message?.includes("rate")) {
+                                friendlyMsg = "Too many login attempts. Please wait a moment.";
+                            }
+
+                            if (loginError) {
+                                loginError.innerText = friendlyMsg;
+                                loginError.style.display = 'block';
+                            }
+                        } else if (data?.session) {
+                            // Supabase Auth succeeded — reveal admin dashboard
+                            loginOverlay.style.display = 'none';
+                            adminDashboard.style.display = 'block';
+                            await renderAdminList();
+                        }
+                    } catch (err) {
+                        console.error("Authentication error:", err);
+                        if (loginError) {
+                            loginError.innerText = "Network error. Please check your connection.";
+                            loginError.style.display = 'block';
+                        }
+                    } finally {
+                        if (submitBtn) {
+                            submitBtn.innerText = originalText;
+                            submitBtn.disabled = false;
+                        }
+                    }
+                });
+            }
         }
     }
 
