@@ -75,11 +75,31 @@ async function initApp() {
         }
     }
 
-    // --- Secure Authentication Logic (`admin.html`) ---
+    // --- Admin DOM References (must be declared before auth check) ---
     const loginOverlay = document.getElementById('login-overlay');
     const adminDashboard = document.getElementById('admin-dashboard');
     const loginForm = document.getElementById('login-form');
     const loginError = document.getElementById('login-error');
+    const adminProductList = document.getElementById('admin-product-list');
+    const adminModal = document.getElementById('admin-modal');
+    const btnOpenAdd = document.getElementById('btn-open-add');
+    const btnCloseModal = document.getElementById('btn-close-modal');
+    const adminForm = document.getElementById('add-cycle-form');
+    const btnLogout = document.getElementById('btn-logout');
+    const idInput = document.getElementById('cycle-id');
+    const nameInput = document.getElementById('cycle-name');
+    const descInput = document.getElementById('cycle-desc');
+    const imageInput = document.getElementById('cycle-image');
+    const imagePreview = document.getElementById('image-preview');
+    const uploadPlaceholder = document.getElementById('upload-placeholder');
+    const modalTitle = document.getElementById('modal-title');
+    const imgHint = document.getElementById('img-hint');
+    const sizeToggles = document.querySelectorAll('.size-toggle');
+    const statusInput = document.getElementById('cycle-status');
+    let currentBase64Image = "";
+    let loadedAdminBikes = [];
+
+    // --- Secure Authentication Logic (`admin.html`) ---
 
     if (loginOverlay && adminDashboard) {
         // Guard: Supabase MUST be available for admin access
@@ -256,14 +276,7 @@ async function initApp() {
     }
 
     // --- Admin Dashboard Logic (`admin.html`) ---
-    const adminProductList = document.getElementById('admin-product-list');
-    const adminModal = document.getElementById('admin-modal');
-    const btnOpenAdd = document.getElementById('btn-open-add');
-    const btnCloseModal = document.getElementById('btn-close-modal');
-    const adminForm = document.getElementById('add-cycle-form');
-
     // Logout button handler
-    const btnLogout = document.getElementById('btn-logout');
     if (btnLogout && supabaseClient) {
         btnLogout.addEventListener('click', async () => {
             await supabaseClient.auth.signOut();
@@ -271,22 +284,6 @@ async function initApp() {
             if (adminDashboard) adminDashboard.style.display = 'none';
         });
     }
-    
-    // Form Inputs
-    const idInput = document.getElementById('cycle-id');
-    const nameInput = document.getElementById('cycle-name');
-    const descInput = document.getElementById('cycle-desc');
-    const imageInput = document.getElementById('cycle-image');
-    const imagePreview = document.getElementById('image-preview');
-    const uploadPlaceholder = document.getElementById('upload-placeholder');
-    const modalTitle = document.getElementById('modal-title');
-    const imgHint = document.getElementById('img-hint');
-    const sizeToggles = document.querySelectorAll('.size-toggle');
-    const statusInput = document.getElementById('cycle-status');
-    
-    let currentBase64Image = "";
-    // Store bikes in memory for easy modal population
-    let loadedAdminBikes = [];
 
     if (adminProductList) {
         // Admin list is rendered after login
