@@ -11,8 +11,7 @@ try {
     console.error("Failed to initialize Supabase. Running in offline/fallback mode.", e);
 }
 
-document.addEventListener('DOMContentLoaded', async () => {
-    
+async function initApp() {
     // --- Data Management (Supabase Backend) ---
     const DEFAULT_BIKES = [
         {
@@ -67,7 +66,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     }]);
                 }
                 const { data: newData } = await supabase.from('bikes').select('*').order('id', { ascending: false });
-                return newData || DEFAULT_BIKES;
+                return newData && newData.length > 0 ? newData : DEFAULT_BIKES;
             }
             return data;
         } catch (err) {
@@ -100,55 +99,63 @@ document.addEventListener('DOMContentLoaded', async () => {
             await renderAdminList();
         }
 
-        loginForm?.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const rawUsername = document.getElementById('login-email').value.trim();
-            const password = document.getElementById('login-password').value;
-            loginError.style.display = 'none';
-            
-            // Allow the user to type just "SAI" or "Laxman" (case-insensitive)
-            const lowerUser = rawUsername.toLowerCase();
-            const email = rawUsername.includes('@') ? rawUsername : `${lowerUser}@admin.com`;
-
-            // Try Supabase Auth first
-            let authError = null;
-            if (supabase) {
-                try {
-                    const { error } = await supabase.auth.signInWithPassword({
-                        email: email,
-                        password: password,
-                    });
-                    authError = error;
-                } catch (err) {
-                    console.warn("Supabase Auth exception:", err);
-                    authError = err; // Force it to hit the fallback
+        if (loginForm) {
+            loginForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const rawUsername = document.getElementById('login-email').value.trim();
+                const password = document.getElementById('login-password').value.trim(); // Trim spaces!
+                if (loginError) loginError.style.display = 'none';
+                
+                // Allow the user to type just "SAI" or "Laxman" or "SAI@admin.com" (case-insensitive)
+                let lowerUser = rawUsername.toLowerCase();
+                const email = lowerUser.includes('@') ? lowerUser : `${lowerUser}@admin.com`;
+                
+                if (lowerUser.endsWith('@admin.com')) {
+                    lowerUser = lowerUser.replace('@admin.com', '');
                 }
-            } else {
-                authError = new Error("Cannot reach Supabase. Checking offline credentials.");
-            }
 
-            if (authError) {
-                // Hardcoded Fallback (in case Supabase Auth failed due to local files or missing setup)
-                if ((lowerUser === 'sai' && password === 'Sai@6844') || 
-                    (lowerUser === 'laxman' && password === 'Laxman@9126')) {
-                    console.log("Supabase Auth failed, but hardcoded credentials matched. Bypassing...");
+                // Try Supabase Auth first
+                let authError = null;
+                if (supabase) {
+                    try {
+                        const { error } = await supabase.auth.signInWithPassword({
+                            email: email,
+                            password: password,
+                        });
+                        authError = error;
+                    } catch (err) {
+                        console.warn("Supabase Auth exception:", err);
+                        authError = err; // Force it to hit the fallback
+                    }
+                } else {
+                    authError = new Error("Cannot reach Supabase. Checking offline credentials.");
+                }
+
+                if (authError) {
+                    // Hardcoded Fallback (in case Supabase Auth failed due to local files or missing setup)
+                    if ((lowerUser === 'sai' && password === 'Sai@6844') || 
+                        (lowerUser === 'laxman' && password === 'Laxman@9126')) {
+                        console.log("Supabase Auth failed, but hardcoded credentials matched. Bypassing...");
+                        loginOverlay.style.display = 'none';
+                        adminDashboard.style.display = 'block';
+                        await renderAdminList();
+                    } else {
+                        const errorMsg = authError.message || "Network/Local Storage Error";
+                        alert("Login Failed: " + errorMsg + "\n\n(Check your credentials or Supabase setup)");
+                        if (loginError) {
+                            loginError.innerText = errorMsg;
+                            loginError.style.display = 'block';
+                        }
+                    }
+                } else {
+                    // Supabase Auth Succeeded
                     loginOverlay.style.display = 'none';
                     adminDashboard.style.display = 'block';
                     await renderAdminList();
-                } else {
-                    const errorMsg = authError.message || "Network/Local Storage Error";
-                    alert("Login Failed: " + errorMsg + "\n\n(Check your credentials or Supabase setup)");
-                    loginError.innerText = errorMsg;
-                    loginError.style.display = 'block';
                 }
-            } else {
-                // Supabase Auth Succeeded
-                loginOverlay.style.display = 'none';
-                adminDashboard.style.display = 'block';
-                await renderAdminList();
-            }
-        });
+            });
+        }
     }
 
     // --- Store Page Logic (`index.html`) ---
@@ -158,9 +165,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         const bikes = await getBikes();
         
         bikes.forEach(bike => {
-            const sizes = Object.keys(bike.prices);
-            const firstSize = sizes[0];
-            const firstPrice = bike.prices[firstSize];
+            const sizes = Object.keys(bike.prices || {});
+            const firstSize = sizes[0] || 'Default';
+            const firstPrice = bike.prices ? bike.prices[firstSize] : 0;
 
             const sizeBtnsHTML = sizes.map((size, index) => 
                 `<button class="size-btn ${index === 0 ? 'active' : ''}" data-price="${bike.prices[size]}">${size}</button>`
@@ -209,7 +216,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     
                     // Update price dynamically
                     const newPrice = btn.getAttribute('data-price');
-                    priceDisplay.innerText = `₹${newPrice}`;
+                    if (priceDisplay) priceDisplay.innerText = `₹${newPrice}`;
                 });
             });
         });
@@ -246,129 +253,138 @@ document.addEventListener('DOMContentLoaded', async () => {
             toggle.addEventListener('change', (e) => {
                 const sizeVal = e.target.value.replace('"', '');
                 const priceInput = document.getElementById(`price-${sizeVal}`);
-                if (e.target.checked) {
-                    priceInput.disabled = false;
-                    priceInput.required = true;
-                } else {
-                    priceInput.disabled = true;
-                    priceInput.required = false;
-                    priceInput.value = '';
+                if (priceInput) {
+                    if (e.target.checked) {
+                        priceInput.disabled = false;
+                        priceInput.required = true;
+                    } else {
+                        priceInput.disabled = true;
+                        priceInput.required = false;
+                        priceInput.value = '';
+                    }
                 }
             });
         });
 
         // Open Add Modal
-        btnOpenAdd.addEventListener('click', () => {
-            openModal();
-        });
+        if (btnOpenAdd) btnOpenAdd.addEventListener('click', () => openModal());
 
         // Close Modal
-        btnCloseModal.addEventListener('click', () => {
-            closeModal();
-        });
+        if (btnCloseModal) btnCloseModal.addEventListener('click', () => closeModal());
 
         // Handle Image Preview
-        imageInput.addEventListener('change', function() {
-            const file = this.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    currentBase64Image = e.target.result;
-                    imagePreview.src = currentBase64Image;
-                    imagePreview.style.display = 'block';
-                    uploadPlaceholder.style.display = 'none';
-                }
-                reader.readAsDataURL(file);
-            }
-        });
-
-        // Handle Form Submit (Add or Edit)
-        adminForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const prices = {};
-            let hasSizes = false;
-
-            sizeToggles.forEach(toggle => {
-                if (toggle.checked) {
-                    hasSizes = true;
-                    const sizeVal = toggle.value;
-                    const cleanSizeVal = sizeVal.replace('"', '');
-                    const priceVal = document.getElementById(`price-${cleanSizeVal}`).value;
-                    prices[sizeVal] = parseFloat(priceVal);
+        if (imageInput) {
+            imageInput.addEventListener('change', function() {
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        currentBase64Image = e.target.result;
+                        imagePreview.src = currentBase64Image;
+                        imagePreview.style.display = 'block';
+                        uploadPlaceholder.style.display = 'none';
+                    }
+                    reader.readAsDataURL(file);
                 }
             });
+        }
 
-            if (!hasSizes) return alert("Please select at least one size and enter its price.");
+        // Handle Form Submit (Add or Edit)
+        if (adminForm) {
+            adminForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const prices = {};
+                let hasSizes = false;
 
-            const editId = idInput.value;
-            const inStock = statusInput.value === 'true';
-
-            // Disable submit button to prevent double submits
-            const submitBtn = adminForm.querySelector('button[type="submit"]');
-            const originalText = submitBtn.innerText;
-            submitBtn.innerText = "Saving...";
-            submitBtn.disabled = true;
-
-            try {
-                if (editId) {
-                    // Edit Existing in Supabase
-                    const updateData = {
-                        name: nameInput.value,
-                        prices: prices,
-                        description: descInput.value,
-                        inStock: inStock
-                    };
-                    if (currentBase64Image) {
-                        updateData.image = currentBase64Image;
+                sizeToggles.forEach(toggle => {
+                    if (toggle.checked) {
+                        hasSizes = true;
+                        const sizeVal = toggle.value;
+                        const cleanSizeVal = sizeVal.replace('"', '');
+                        const priceVal = document.getElementById(`price-${cleanSizeVal}`).value;
+                        prices[sizeVal] = parseFloat(priceVal);
                     }
+                });
 
-                    if (supabase) {
-                        await supabase.from('bikes').update(updateData).eq('id', editId);
-                    } else {
-                        console.warn("Offline mode: Database update skipped.");
-                    }
-                } else {
-                    // Add New to Supabase
-                    if (!currentBase64Image) {
-                        submitBtn.innerText = originalText;
-                        submitBtn.disabled = false;
-                        return alert("Please upload an image.");
-                    }
-                    
-                    if (supabase) {
-                        await supabase.from('bikes').insert([{
+                if (!hasSizes) return alert("Please select at least one size and enter its price.");
+
+                const editId = idInput.value;
+                const inStock = statusInput.value === 'true';
+
+                // Disable submit button to prevent double submits
+                const submitBtn = adminForm.querySelector('button[type="submit"]');
+                const originalText = submitBtn ? submitBtn.innerText : "Save Product";
+                if (submitBtn) {
+                    submitBtn.innerText = "Saving...";
+                    submitBtn.disabled = true;
+                }
+
+                try {
+                    if (editId) {
+                        // Edit Existing in Supabase
+                        const updateData = {
                             name: nameInput.value,
                             prices: prices,
                             description: descInput.value,
-                            image: currentBase64Image,
                             inStock: inStock
-                        }]);
+                        };
+                        if (currentBase64Image) {
+                            updateData.image = currentBase64Image;
+                        }
+
+                        if (supabase) {
+                            await supabase.from('bikes').update(updateData).eq('id', editId);
+                        } else {
+                            console.warn("Offline mode: Database update skipped.");
+                        }
                     } else {
-                        console.warn("Offline mode: Database insert skipped.");
+                        // Add New to Supabase
+                        if (!currentBase64Image) {
+                            if (submitBtn) {
+                                submitBtn.innerText = originalText;
+                                submitBtn.disabled = false;
+                            }
+                            return alert("Please upload an image.");
+                        }
+                        
+                        if (supabase) {
+                            await supabase.from('bikes').insert([{
+                                name: nameInput.value,
+                                prices: prices,
+                                description: descInput.value,
+                                image: currentBase64Image,
+                                inStock: inStock
+                            }]);
+                        } else {
+                            console.warn("Offline mode: Database insert skipped.");
+                        }
                     }
+                } catch (err) {
+                    console.error("Failed to save to database:", err);
+                    alert("Failed to save to cloud database. Please check your internet connection.");
                 }
-            } catch (err) {
-                console.error("Failed to save to database:", err);
-                alert("Failed to save to cloud database. Please check your internet connection.");
-            }
 
-            submitBtn.innerText = originalText;
-            submitBtn.disabled = false;
+                if (submitBtn) {
+                    submitBtn.innerText = originalText;
+                    submitBtn.disabled = false;
+                }
 
-            closeModal();
-            await renderAdminList();
-        });
+                closeModal();
+                await renderAdminList();
+            });
+        }
     }
 
     async function renderAdminList() {
+        if (!adminProductList) return;
         adminProductList.innerHTML = '<p>Loading database...</p>';
         loadedAdminBikes = await getBikes();
         adminProductList.innerHTML = '';
 
         loadedAdminBikes.forEach(bike => {
-            const sizes = Object.keys(bike.prices);
-            const displayPrice = sizes.length > 1 ? `From ₹${bike.prices[sizes[0]]}` : `₹${bike.prices[sizes[0]]}`;
+            const sizes = Object.keys(bike.prices || {});
+            const displayPrice = sizes.length > 1 ? `From ₹${bike.prices[sizes[0]]}` : (sizes.length === 1 ? `₹${bike.prices[sizes[0]]}` : 'No price');
 
             const stockBadge = bike.inStock === false ? `<span style="color: #ef4444; font-size: 0.8rem; font-weight: 600; padding: 2px 8px; background: #fee2e2; border-radius: 12px; margin-left: 10px;">Out of Stock</span>` : '';
 
@@ -397,12 +413,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function openModal(editId = null) {
-        adminForm.reset();
+        if (!adminModal) return;
+        if (adminForm) adminForm.reset();
         currentBase64Image = "";
-        imagePreview.style.display = 'none';
-        imagePreview.src = "";
-        uploadPlaceholder.style.display = 'block';
-        imgHint.style.display = 'none';
+        if (imagePreview) {
+            imagePreview.style.display = 'none';
+            imagePreview.src = "";
+        }
+        if (uploadPlaceholder) uploadPlaceholder.style.display = 'block';
+        if (imgHint) imgHint.style.display = 'none';
         
         // Disable all price inputs initially
         document.querySelectorAll('.size-price-input').forEach(input => {
@@ -412,22 +431,24 @@ document.addEventListener('DOMContentLoaded', async () => {
         
         if (editId) {
             // Edit Mode Setup
-            modalTitle.innerText = "Edit Bicycle";
+            if (modalTitle) modalTitle.innerText = "Edit Bicycle";
             const bike = loadedAdminBikes.find(b => b.id && b.id.toString() === editId);
             if(bike) {
-                idInput.value = bike.id;
-                nameInput.value = bike.name;
-                descInput.value = bike.description;
-                statusInput.value = bike.inStock !== false ? 'true' : 'false';
+                if (idInput) idInput.value = bike.id;
+                if (nameInput) nameInput.value = bike.name;
+                if (descInput) descInput.value = bike.description;
+                if (statusInput) statusInput.value = bike.inStock !== false ? 'true' : 'false';
                 
                 // Show current image preview
-                imagePreview.src = bike.image;
-                imagePreview.style.display = 'block';
-                uploadPlaceholder.style.display = 'none';
-                imgHint.style.display = 'block';
+                if (imagePreview) {
+                    imagePreview.src = bike.image;
+                    imagePreview.style.display = 'block';
+                }
+                if (uploadPlaceholder) uploadPlaceholder.style.display = 'none';
+                if (imgHint) imgHint.style.display = 'block';
                 
                 // Check sizes and fill prices
-                Object.keys(bike.prices).forEach(size => {
+                Object.keys(bike.prices || {}).forEach(size => {
                     const cleanSizeVal = size.replace('"', '');
                     const cb = document.querySelector(`input[name="sizes"][value='${size}']`);
                     const priceInput = document.getElementById(`price-${cleanSizeVal}`);
@@ -441,16 +462,22 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         } else {
             // Add Mode Setup
-            modalTitle.innerText = "Add New Bicycle";
-            idInput.value = "";
-            statusInput.value = 'true';
+            if (modalTitle) modalTitle.innerText = "Add New Bicycle";
+            if (idInput) idInput.value = "";
+            if (statusInput) statusInput.value = 'true';
         }
         
         adminModal.style.display = 'flex';
     }
 
     function closeModal() {
-        adminModal.style.display = 'none';
+        if (adminModal) adminModal.style.display = 'none';
     }
+}
 
-});
+// Make absolutely sure the script executes, even if it was loaded asynchronously
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initApp);
+} else {
+    initApp();
+}
