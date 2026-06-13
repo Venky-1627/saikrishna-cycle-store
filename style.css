@@ -529,6 +529,7 @@ footer {
     background: var(--card-bg);
     width: 100%;
     max-width: 800px;
+    margin: 0 auto;
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-soft);
     padding: 40px;
