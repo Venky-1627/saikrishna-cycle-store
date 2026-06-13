@@ -280,8 +280,7 @@ async function initApp() {
     if (btnLogout && supabaseClient) {
         btnLogout.addEventListener('click', async () => {
             await supabaseClient.auth.signOut();
-            if (loginOverlay) loginOverlay.style.display = 'flex';
-            if (adminDashboard) adminDashboard.style.display = 'none';
+            window.location.href = 'index.html';
         });
     }
 
