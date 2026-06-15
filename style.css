@@ -183,7 +183,18 @@ h1, h2, h3, .logo {
     padding: 40px 0;
     overflow: hidden;
     display: flex;
+    flex-direction: column;
     align-items: center;
+}
+
+.marquee-title {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 700;
 }
 
 .marquee-container {
