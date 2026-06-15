@@ -435,6 +435,7 @@ async function initApp() {
                             <h4>${bike.name} ${stockBadge}</h4>
                             <p>${displayPrice}</p>
                         </div>
+                    </div>
                     <div style="display: flex; gap: 10px;">
                         <button class="btn-edit" data-id="${bike.id}">Edit</button>
                         <button class="btn-delete" data-id="${bike.id}" style="background-color: #ef4444; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-family: inherit; font-weight: 500;">Delete</button>
