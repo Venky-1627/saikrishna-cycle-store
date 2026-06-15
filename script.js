@@ -435,8 +435,10 @@ async function initApp() {
                             <h4>${bike.name} ${stockBadge}</h4>
                             <p>${displayPrice}</p>
                         </div>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="btn-edit" data-id="${bike.id}">Edit</button>
+                        <button class="btn-delete" data-id="${bike.id}" style="background-color: #ef4444; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-family: inherit; font-weight: 500;">Delete</button>
                     </div>
-                    <button class="btn-edit" data-id="${bike.id}">Edit</button>
                 </div>
             `;
             adminProductList.insertAdjacentHTML('beforeend', itemHTML);
@@ -447,6 +449,39 @@ async function initApp() {
             btn.addEventListener('click', (e) => {
                 const id = e.target.getAttribute('data-id');
                 openModal(id);
+            });
+        });
+
+        // Attach Delete Listeners
+        document.querySelectorAll('.btn-delete').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                const id = e.target.getAttribute('data-id');
+                if (confirm('Are you sure you want to delete this product?')) {
+                    const originalText = btn.innerText;
+                    btn.innerText = 'Deleting...';
+                    btn.disabled = true;
+                    if (supabaseClient) {
+                        try {
+                            const { error } = await supabaseClient.from('bikes').delete().eq('id', id);
+                            if (error) {
+                                console.error("Error deleting product:", error);
+                                alert("Failed to delete product: " + (error.message || "Unknown error"));
+                            } else {
+                                await renderAdminList(); // Refresh list on success
+                            }
+                        } catch (err) {
+                            console.error("Exception deleting product:", err);
+                            alert("Exception during delete. Check console.");
+                        } finally {
+                            btn.innerText = originalText;
+                            btn.disabled = false;
+                        }
+                    } else {
+                        alert("Offline mode: Database delete skipped.");
+                        btn.innerText = originalText;
+                        btn.disabled = false;
+                    }
+                }
             });
         });
     }
