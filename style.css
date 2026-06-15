@@ -248,7 +248,7 @@ h1, h2, h3, .logo {
 
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
     gap: 40px;
 }
 
@@ -813,7 +813,7 @@ footer {
     }
     
     .hero h1 {
-        font-size: 3rem;
+        font-size: 2.4rem;
     }
     
     .hero-content {
@@ -830,6 +830,10 @@ footer {
     
     .navbar {
         padding: 15px 5%;
+    }
+    
+    .logo {
+        font-size: 1.4rem;
     }
     
     /* Admin Mobile Fixes */
@@ -861,6 +865,13 @@ footer {
         width: 100%;
         justify-content: flex-end;
     }
+    
+    .admin-modal-content {
+        padding: 20px;
+        margin: 10% auto;
+        width: 95%;
+    }
+    
     .modern-login-card {
         padding: 40px 20px;
         width: 92%;
