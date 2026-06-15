@@ -23,6 +23,38 @@ try {
     console.error("Failed to initialize Supabase. Running in offline/fallback mode.", e);
 }
 
+// --- Image Compression Logic ---
+function compressImage(file, maxWidth = 800, quality = 0.7) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = event => {
+            const img = new Image();
+            img.src = event.target.result;
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                let width = img.width;
+                let height = img.height;
+
+                if (width > maxWidth) {
+                    height = Math.round((height * maxWidth) / width);
+                    width = maxWidth;
+                }
+
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+
+                const dataUrl = canvas.toDataURL('image/webp', quality);
+                resolve(dataUrl);
+            };
+            img.onerror = error => reject(error);
+        };
+        reader.onerror = error => reject(error);
+    });
+}
+
 async function initApp() {
     // --- Data Management (Supabase Backend) ---
     const DEFAULT_BIKES = [
@@ -133,13 +165,18 @@ async function initApp() {
                     // Session exists — verify the token hasn't expired
                     const expiresAt = data.session.expires_at; // Unix timestamp in seconds
                     const now = Math.floor(Date.now() / 1000);
+                    const loginTimeStr = localStorage.getItem('admin_login_time');
+                    const loginTime = loginTimeStr ? parseInt(loginTimeStr) : 0;
+                    const ONE_HOUR_MS = 60 * 60 * 1000; // 1 hour limit
 
-                    if (expiresAt && expiresAt > now) {
+                    // Check if Supabase session is valid AND our custom 1-hour limit hasn't passed
+                    if (expiresAt && expiresAt > now && (Date.now() - loginTime) <= ONE_HOUR_MS) {
                         loginOverlay.style.display = 'none';
                         adminDashboard.style.display = 'block';
                         await renderAdminList();
                     } else {
-                        // Token expired — force sign out and show login
+                        // Token expired or 1-hour limit reached — force sign out and show login
+                        localStorage.removeItem('admin_login_time');
                         await supabaseClient.auth.signOut();
                     }
                 }
@@ -150,6 +187,7 @@ async function initApp() {
             // Listen for auth state changes (handles token refresh, sign out in other tabs, etc.)
             supabaseClient.auth.onAuthStateChange((event, session) => {
                 if (event === 'SIGNED_OUT' || !session) {
+                    localStorage.removeItem('admin_login_time');
                     loginOverlay.style.display = 'flex';
                     adminDashboard.style.display = 'none';
                 }
@@ -203,6 +241,7 @@ async function initApp() {
                             }
                         } else if (data?.session) {
                             // Supabase Auth succeeded — reveal admin dashboard
+                            localStorage.setItem('admin_login_time', Date.now().toString());
                             loginOverlay.style.display = 'none';
                             adminDashboard.style.display = 'block';
                             await renderAdminList();
@@ -291,6 +330,7 @@ async function initApp() {
     // Logout button handler
     if (btnLogout && supabaseClient) {
         btnLogout.addEventListener('click', async () => {
+            localStorage.removeItem('admin_login_time');
             await supabaseClient.auth.signOut();
             window.location.href = 'index.html';
         });
@@ -325,17 +365,27 @@ async function initApp() {
 
         // Handle Image Preview
         if (imageInput) {
-            imageInput.addEventListener('change', function() {
+            imageInput.addEventListener('change', async function() {
                 const file = this.files[0];
                 if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        currentBase64Image = e.target.result;
+                    try {
+                        const originalSize = (file.size / 1024).toFixed(2);
+                        if (imgHint) imgHint.innerText = `Compressing image (${originalSize} KB)...`;
+                        
+                        // Compress the image (max 800px width, 70% quality WebP)
+                        currentBase64Image = await compressImage(file, 800, 0.7);
+                        
+                        // Calculate new size approximately
+                        const newSize = Math.round((currentBase64Image.length * 3 / 4) / 1024);
+                        if (imgHint) imgHint.innerText = `Image ready! Compressed from ${originalSize} KB to ~${newSize} KB.`;
+                        
                         imagePreview.src = currentBase64Image;
                         imagePreview.style.display = 'block';
                         uploadPlaceholder.style.display = 'none';
+                    } catch (error) {
+                        console.error("Error compressing image:", error);
+                        if (imgHint) imgHint.innerText = "Error processing image. Please try another.";
                     }
-                    reader.readAsDataURL(file);
                 }
             });
         }
