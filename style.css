@@ -831,6 +831,40 @@ footer {
     .navbar {
         padding: 15px 5%;
     }
+    
+    /* Admin Mobile Fixes */
+    .admin-dashboard {
+        padding: 100px 5% 30px;
+    }
+    .admin-container {
+        padding: 20px;
+    }
+    .admin-header-flex {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    .admin-header-flex > div:last-child {
+        width: 100%;
+        flex-direction: column;
+    }
+    .admin-header-flex .btn {
+        width: 100%;
+        justify-content: center;
+    }
+    .admin-list-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    .admin-list-item > div:last-child {
+        width: 100%;
+        justify-content: flex-end;
+    }
+    .modern-login-card {
+        padding: 40px 20px;
+        width: 92%;
+    }
 }
 
 /* ------------------------
