@@ -1,6 +1,18 @@
 const supabaseUrl = 'https://antvfvlzmuotlfmlkysm.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFudHZmdmx6bXVvdGxmbWxreXNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEzMTIzNTMsImV4cCI6MjA5Njg4ODM1M30.GxjrLJ1iKPZ7IHH1_iDlwD79ByfVFRvoHdorkEr0lIA';
 
+// --- UI Navigation Logic ---
+document.addEventListener('DOMContentLoaded', () => {
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('nav-links');
+    
+    if (hamburger && navLinks) {
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('mobile-active');
+        });
+    }
+});
+
 // Initialize Supabase safely. If the CDN fails or is blocked, this prevents the whole script from crashing.
 let supabaseClient = null;
 try {

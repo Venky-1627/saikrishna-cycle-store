@@ -98,6 +98,19 @@ h1, h2, h3, .logo {
     font-size: 1.2rem;
 }
 
+.hamburger {
+    display: none;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+}
+
+.hamburger svg {
+    width: 100%;
+    height: 100%;
+    color: var(--text-primary);
+}
+
 .cart-count {
     position: absolute;
     top: -8px;
@@ -821,11 +834,26 @@ footer {
     }
     
     .nav-links {
-        display: none; /* simple hidden nav for mobile QR view, keep cart */
+        display: none;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        flex-direction: column;
+        padding: 20px 0;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        text-align: center;
+        gap: 20px;
     }
     
     .nav-links.mobile-active {
         display: flex;
+    }
+    
+    .hamburger {
+        display: block;
     }
     
     .navbar {
