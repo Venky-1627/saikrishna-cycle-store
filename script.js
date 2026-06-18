@@ -618,3 +618,67 @@ if (document.readyState === 'loading') {
 } else {
     initApp();
 }
+
+// --- DPDP Cookie Consent Logic ---
+document.addEventListener('DOMContentLoaded', () => {
+    const banner = document.getElementById('cookie-consent-banner');
+    const btnAccept = document.getElementById('btn-accept-cookies');
+    const btnDecline = document.getElementById('btn-decline-cookies');
+    const btnPreferences = document.getElementById('open-cookie-preferences');
+
+    if (!banner || !btnAccept || !btnDecline) return;
+
+    // Check existing consent
+    const consentState = localStorage.getItem('cookie_consent');
+
+    if (!consentState) {
+        // No consent set, show banner
+        banner.style.display = 'block';
+    } else if (consentState === 'granted') {
+        // Consent previously granted, update Google Consent Mode
+        if (typeof gtag === 'function') {
+            gtag('consent', 'update', {
+                'analytics_storage': 'granted',
+                'ad_storage': 'granted',
+                'ad_user_data': 'granted',
+                'ad_personalization': 'granted'
+            });
+        }
+    }
+
+    // Handle Accept
+    btnAccept.addEventListener('click', () => {
+        localStorage.setItem('cookie_consent', 'granted');
+        banner.style.display = 'none';
+        
+        if (typeof gtag === 'function') {
+            gtag('consent', 'update', {
+                'analytics_storage': 'granted',
+                'ad_storage': 'granted',
+                'ad_user_data': 'granted',
+                'ad_personalization': 'granted'
+            });
+        }
+    });
+
+    // Handle Decline
+    btnDecline.addEventListener('click', () => {
+        localStorage.setItem('cookie_consent', 'denied');
+        banner.style.display = 'none';
+        // gtag is already denied by default in <head>
+    });
+
+    // Handle Revocation (Cookie Preferences link)
+    if (btnPreferences) {
+        btnPreferences.addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.removeItem('cookie_consent');
+            banner.style.display = 'block';
+            
+            // Reload page to reset GA tags if they were previously granted
+            if (consentState === 'granted') {
+                window.location.reload();
+            }
+        });
+    }
+});

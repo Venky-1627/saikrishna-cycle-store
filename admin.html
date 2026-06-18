@@ -11,6 +11,17 @@
     <link rel="stylesheet" href="style.css">
     
     <!-- Google tag (gtag.js) -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      // Default Consent Mode setup - MUST be before the GA4 script
+      gtag('consent', 'default', {
+        'analytics_storage': 'denied',
+        'ad_storage': 'denied',
+        'ad_user_data': 'denied',
+        'ad_personalization': 'denied'
+      });
+    </script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-E8CYEJT2SV"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -161,5 +172,16 @@
     <!-- Supabase JS SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="script.js"></script>
+
+    <!-- DPDP Cookie Consent Banner -->
+    <div id="cookie-consent-banner" class="cookie-banner" style="display: none;">
+        <div class="cookie-content">
+            <p>We use cookies to improve your experience and analyze site traffic. By clicking Accept, you agree to our use of cookies.</p>
+            <div class="cookie-buttons">
+                <button id="btn-accept-cookies" class="btn btn-primary">Accept</button>
+                <button id="btn-decline-cookies" class="btn btn-outline" style="border: 1px solid var(--text-secondary); background: transparent; color: var(--text-primary);">Decline</button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
