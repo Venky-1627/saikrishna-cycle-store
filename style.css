@@ -239,12 +239,14 @@ h1, h2, h3, .logo {
 
 .btn-primary {
     background: var(--accent-color);
-    color: white;
+    color: #18181b; /* Swapped white text to a dark gray/black to pass WCAG AA */
+    font-weight: 700; /* Increased font weight slightly for readability */
     box-shadow: 0 10px 20px rgba(255, 87, 34, 0.2);
 }
 
 .btn-primary:hover {
     background: var(--accent-hover);
+    color: #18181b;
     transform: translateY(-3px);
     box-shadow: 0 15px 25px rgba(255, 87, 34, 0.3);
 }
