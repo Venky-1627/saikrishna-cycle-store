@@ -5,30 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Velo - Premium Bicycles</title>
     <meta name="description" content="Shop premium bicycles, accessories, and gear at Sai Krishna Cycle Stores. Authorized dealer for Hero, CEAT, and more.">
+    <!-- Preconnect to Unsplash for LCP optimization -->
+    <link rel="preconnect" href="https://images.unsplash.com">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&family=Syne:wght@600;700;800&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     
-    <!-- Google tag (gtag.js) -->
+    <!-- Google tag (gtag.js) - Delayed for Performance -->
     <script>
+      // Initialize dataLayer and default consent immediately
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
-      // Default Consent Mode setup - MUST be before the GA4 script
       gtag('consent', 'default', {
         'analytics_storage': 'denied',
         'ad_storage': 'denied',
         'ad_user_data': 'denied',
         'ad_personalization': 'denied'
       });
-    </script>
-    <script defer src="https://www.googletagmanager.com/gtag/js?id=G-E8CYEJT2SV"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-E8CYEJT2SV');
+
+      // Delay loading the actual GTM script until user interaction
+      let gtmLoaded = false;
+      function loadGTM() {
+          if (gtmLoaded) return;
+          gtmLoaded = true;
+          const script = document.createElement('script');
+          script.src = "https://www.googletagmanager.com/gtag/js?id=G-E8CYEJT2SV";
+          script.async = true;
+          document.head.appendChild(script);
+          
+          // Clean up listeners
+          ['scroll', 'mousemove', 'touchstart', 'keydown'].forEach(e => {
+              window.removeEventListener(e, loadGTM);
+          });
+      }
+      
+      // Load on interaction or after 5 seconds fallback
+      ['scroll', 'mousemove', 'touchstart', 'keydown'].forEach(e => {
+          window.addEventListener(e, loadGTM, { once: true, passive: true });
+      });
+      setTimeout(loadGTM, 5000);
     </script>
 </head>
 <body>
@@ -56,7 +75,7 @@
         </div>
         <div class="hero-image-container">
             <!-- Using an unsplash image for a high-end bike look -->
-            <img src="https://images.unsplash.com/photo-1485965120184-e220f721d03e?q=80&w=450&auto=format&fit=crop" alt="Premium Bicycle" class="hero-img" fetchpriority="high">
+            <img src="https://images.unsplash.com/photo-1485965120184-e220f721d03e?q=80&w=450&auto=format&fit=crop" alt="Premium Bicycle" class="hero-img" width="600" height="450" fetchpriority="high">
         </div>
     </header>
 
