@@ -682,3 +682,35 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+// --- FAQ Accordion Logic ---
+document.addEventListener('DOMContentLoaded', () => {
+    const faqQuestions = document.querySelectorAll('.faq-question');
+    faqQuestions.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const faqItem = btn.parentElement;
+            // Close all others
+            document.querySelectorAll('.faq-item').forEach(item => {
+                if (item !== faqItem) item.classList.remove('active');
+            });
+            // Toggle current
+            faqItem.classList.toggle('active');
+        });
+    });
+});
+
+// --- Testimonial Slider Logic ---
+document.addEventListener('DOMContentLoaded', () => {
+    const slides = document.querySelectorAll('.testimonial-slide');
+    if (slides.length === 0) return;
+    
+    let currentSlide = 0;
+    
+    function nextSlide() {
+        slides[currentSlide].classList.remove('active');
+        currentSlide = (currentSlide + 1) % slides.length;
+        slides[currentSlide].classList.add('active');
+    }
+    
+    setInterval(nextSlide, 5000);
+});

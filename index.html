@@ -3,19 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Velo - Premium Bicycles</title>
-    <meta name="description" content="Shop premium bicycles, accessories, and gear at Sai Krishna Cycle Stores. Authorized dealer for Hero, CEAT, and more.">
-    <!-- Preconnect to Unsplash for LCP optimization -->
+    
+    <!-- Local SEO & Primary Metadata -->
+    <title>Best Bicycle Shop in Luxettipet | Sai Krishna Cycle Store</title>
+    <meta name="description" content="Welcome to Sai Krishna Cycle Store, the best wholesale and retail bicycle shop in Luxettipet. We offer premium bicycles, genuine spare parts, and expert repair services.">
+    <meta name="keywords" content="Cycle Shop in Luxettipet, Best Cycle Shop in Luxettipet, Bicycle Shop in Luxettipet, Wholesale Bicycle Shop, Retail Bicycle Shop, Bicycle Accessories Shop, Cycle Repair Near Me, Kids Bicycle Shop, Mountain Bike Shop, Road Bike Dealer">
+    <link rel="canonical" href="https://saikrishnacyclestore.com/">
+    
+    <!-- Open Graph (Facebook/WhatsApp) -->
+    <meta property="og:type" content="business.business">
+    <meta property="og:title" content="Best Bicycle Shop in Luxettipet | Sai Krishna Cycle Store">
+    <meta property="og:description" content="Your trusted bicycle showroom in Luxettipet. Wholesale and retail sales of kids' bikes, mountain bikes, road bikes, genuine spare parts, and expert servicing.">
+    <meta property="og:url" content="https://saikrishnacyclestore.com/">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1485965120184-e220f721d03e?q=80&w=1200&auto=format&fit=crop">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Best Bicycle Shop in Luxettipet | Sai Krishna Cycle Store">
+    <meta name="twitter:description" content="Premium bicycles, wholesale deals, and expert cycle repairs in Luxettipet. Visit us today!">
+    
+    <!-- Preconnect to external domains -->
     <link rel="preconnect" href="https://images.unsplash.com">
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&family=Syne:wght@600;700;800&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     
-    <!-- Google tag (gtag.js) - Delayed for Performance -->
+    <!-- Google Consent Mode v2 (MUST be before gtag.js) -->
     <script>
-      // Initialize dataLayer and default consent immediately
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('consent', 'default', {
@@ -24,10 +41,13 @@
         'ad_user_data': 'denied',
         'ad_personalization': 'denied'
       });
+    </script>
+    
+    <!-- Google tag (gtag.js) - Delayed for Performance -->
+    <script>
       gtag('js', new Date());
       gtag('config', 'G-E8CYEJT2SV');
 
-      // Delay loading the actual GTM script until user interaction
       let gtmLoaded = false;
       function loadGTM() {
           if (gtmLoaded) return;
@@ -37,17 +57,87 @@
           script.async = true;
           document.head.appendChild(script);
           
-          // Clean up listeners
           ['scroll', 'mousemove', 'touchstart', 'keydown'].forEach(e => {
               window.removeEventListener(e, loadGTM);
           });
       }
       
-      // Load on interaction or after 5 seconds fallback
       ['scroll', 'mousemove', 'touchstart', 'keydown'].forEach(e => {
           window.addEventListener(e, loadGTM, { once: true, passive: true });
       });
       setTimeout(loadGTM, 5000);
+    </script>
+
+    <!-- Schema Markup (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": ["LocalBusiness", "BicycleStore", "WholesaleStore"],
+          "@id": "https://saikrishnacyclestore.com/",
+          "name": "Sai Krishna Cycle Store",
+          "image": "https://images.unsplash.com/photo-1485965120184-e220f721d03e?q=80&w=1200",
+          "description": "The best wholesale and retail bicycle shop in Luxettipet. We offer premium bicycles, genuine spare parts, and expert repair services.",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Main Road",
+            "addressLocality": "Luxettipet",
+            "addressRegion": "Telangana",
+            "postalCode": "504215",
+            "addressCountry": "IN"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "18.8876",
+            "longitude": "79.3142"
+          },
+          "telephone": "+91-7794079997",
+          "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+            "opens": "09:00",
+            "closes": "20:30"
+          },
+          "priceRange": "₹₹",
+          "paymentAccepted": "Cash, UPI, Debit Card, Credit Card, Bank Transfer",
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "reviewCount": "128"
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Do you sell bicycles wholesale?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, we are a leading wholesale bicycle shop supplying bicycles and accessories to dealers, retail shops, schools, and institutions across Telangana."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Do you repair all bicycle brands?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Absolutely. Our expert mechanics provide professional bicycle servicing for all major brands, including gear tuning, brake adjustments, and full check-ups."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Do you sell genuine spare parts?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, we stock a vast inventory of genuine bicycle spare parts, including tyres, tubes, chains, brake pads, and bearings."
+              }
+            }
+          ]
+        }
+      ]
+    }
     </script>
 </head>
 <body>
@@ -59,91 +149,462 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
         </div>
         <ul class="nav-links" id="nav-links">
-            <li><a href="index.html#bikes">Bikes</a></li>
-            <li><a href="index.html#about">About</a></li>
+            <li><a href="#bikes">Bikes</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#faq">FAQ</a></li>
             <li><a href="admin.html">Admin</a></li>
         </ul>
     </nav>
 
     <main>
-    <!-- Hero Section -->
-    <header class="hero">
-        <div class="hero-content">
-            <h1>Ride for the fitness</h1>
-            <p>Discover our new collection of premium aerodynamic road and city bicycles, engineered for speed, comfort, and style.</p>
-            <a href="#bikes" class="btn btn-primary cta">Shop Collection</a>
-        </div>
-        <div class="hero-image-container">
-            <!-- Using an unsplash image for a high-end bike look -->
-            <img src="https://images.unsplash.com/photo-1485965120184-e220f721d03e?q=80&w=450&auto=format&fit=crop" alt="Premium Bicycle" class="hero-img" width="600" height="450" fetchpriority="high">
-        </div>
-    </header>
-
-    <!-- Affiliated Brands Marquee -->
-    <section class="brands-marquee-section">
-        <h2 class="marquee-title">Authorized Dealerships</h2>
-        <div class="marquee-container">
-            <div class="marquee-content">
-                <!-- Original Set (Repeated to ensure full screen width coverage) -->
-                <img src="assets/logos/ralco.svg" alt="Ralco Tyres" class="brand-logo" width="100" height="45">
-                <img src="assets/logos/ceat.svg" alt="CEAT" class="brand-logo" width="100" height="45">
-                <img src="assets/logos/hero_cycles.svg" alt="Hero Cycles" class="brand-logo" width="100" height="45">
-                <img src="assets/logos/bedrock.svg" alt="Bedrock" class="brand-logo" width="100" height="45">
-                <img src="assets/logos/mack_cycle.svg" alt="Mack Cycle" class="brand-logo" width="100" height="45">
-                <img src="assets/logos/oster.svg" alt="Oster" class="brand-logo" width="100" height="45">
-                
-                <img src="assets/logos/ralco.svg" alt="Ralco Tyres" class="brand-logo" width="100" height="45">
-                <img src="assets/logos/ceat.svg" alt="CEAT" class="brand-logo" width="100" height="45">
-                <img src="assets/logos/hero_cycles.svg" alt="Hero Cycles" class="brand-logo" width="100" height="45">
-                <img src="assets/logos/bedrock.svg" alt="Bedrock" class="brand-logo" width="100" height="45">
-                <img src="assets/logos/mack_cycle.svg" alt="Mack Cycle" class="brand-logo" width="100" height="45">
-                <img src="assets/logos/oster.svg" alt="Oster" class="brand-logo" width="100" height="45">
-                <!-- Duplicate Set for Seamless Infinite Scroll -->
-                <img src="assets/logos/ralco.svg" alt="Ralco Tyres" class="brand-logo" width="100" height="45">
-                <img src="assets/logos/ceat.svg" alt="CEAT" class="brand-logo" width="100" height="45">
-                <img src="assets/logos/hero_cycles.svg" alt="Hero Cycles" class="brand-logo" width="100" height="45">
-                <img src="assets/logos/bedrock.svg" alt="Bedrock" class="brand-logo" width="100" height="45">
-                <img src="assets/logos/mack_cycle.svg" alt="Mack Cycle" class="brand-logo" width="100" height="45">
-                <img src="assets/logos/oster.svg" alt="Oster" class="brand-logo" width="100" height="45">
-                
-                <img src="assets/logos/ralco.svg" alt="Ralco Tyres" class="brand-logo" width="100" height="45">
-                <img src="assets/logos/ceat.svg" alt="CEAT" class="brand-logo" width="100" height="45">
-                <img src="assets/logos/hero_cycles.svg" alt="Hero Cycles" class="brand-logo" width="100" height="45">
-                <img src="assets/logos/bedrock.svg" alt="Bedrock" class="brand-logo" width="100" height="45">
-                <img src="assets/logos/mack_cycle.svg" alt="Mack Cycle" class="brand-logo" width="100" height="45">
-                <img src="assets/logos/oster.svg" alt="Oster" class="brand-logo" width="100" height="45">
+        <!-- Hero Section -->
+        <header class="hero">
+            <div class="hero-content">
+                <h1>Ready to Find Your Perfect Bicycle?</h1>
+                <p>Visit the best cycle showroom in Luxettipet for wholesale and retail prices on premium bicycles, accessories, spare parts, and professional servicing.</p>
+                <div class="hero-buttons">
+                    <a href="#bikes" class="btn btn-primary cta">Shop Collection</a>
+                    <a href="#store-info" class="btn btn-outline">Get Directions</a>
+                </div>
             </div>
-        </div>
-    </section>
+            <div class="hero-image-container">
+                <img src="https://images.unsplash.com/photo-1485965120184-e220f721d03e?q=80&w=600&auto=format&fit=crop" alt="Premium Bicycle Showroom in Luxettipet" class="hero-img" width="600" height="450" fetchpriority="high">
+            </div>
+        </header>
 
-    <!-- Products Section -->
-    <section id="bikes" class="products">
-        <div class="section-header">
-            <h2>Our Bicycles</h2>
-            <p>Precision crafted for every rider.</p>
-        </div>
+        <!-- Affiliated Brands Marquee -->
+        <section class="brands-marquee-section">
+            <h3 class="marquee-title">We stock genuine bicycles and accessories from trusted brands</h3>
+            <div class="marquee-container">
+                <div class="marquee-content">
+                    <img src="assets/logos/hero_cycles.svg" alt="Hero Cycles Dealer" class="brand-logo" width="100" height="45" loading="lazy">
+                    <img src="assets/logos/ceat.svg" alt="CEAT Tyres" class="brand-logo" width="100" height="45" loading="lazy">
+                    <img src="assets/logos/ralco.svg" alt="Ralco Tyres" class="brand-logo" width="100" height="45" loading="lazy">
+                    <img src="assets/logos/bedrock.svg" alt="Bedrock" class="brand-logo" width="100" height="45" loading="lazy">
+                    <img src="assets/logos/mack_cycle.svg" alt="Mack Cycle" class="brand-logo" width="100" height="45" loading="lazy">
+                    <img src="assets/logos/oster.svg" alt="Oster" class="brand-logo" width="100" height="45" loading="lazy">
+                    <!-- Duplicates for scrolling -->
+                    <img src="assets/logos/hero_cycles.svg" alt="Hero Cycles Dealer" class="brand-logo" width="100" height="45" loading="lazy">
+                    <img src="assets/logos/ceat.svg" alt="CEAT Tyres" class="brand-logo" width="100" height="45" loading="lazy">
+                    <img src="assets/logos/ralco.svg" alt="Ralco Tyres" class="brand-logo" width="100" height="45" loading="lazy">
+                    <img src="assets/logos/bedrock.svg" alt="Bedrock" class="brand-logo" width="100" height="45" loading="lazy">
+                    <img src="assets/logos/mack_cycle.svg" alt="Mack Cycle" class="brand-logo" width="100" height="45" loading="lazy">
+                    <img src="assets/logos/oster.svg" alt="Oster" class="brand-logo" width="100" height="45" loading="lazy">
+                </div>
+            </div>
+        </section>
 
-        <div class="product-grid" id="main-product-grid">
-            <!-- Products will be injected here dynamically by script.js -->
-        </div>
-    </section>
+        <!-- About Us Section -->
+        <section id="about" class="about-section">
+            <div class="about-grid">
+                <div class="about-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1576435728678-68ce0f622473?q=80&w=600&auto=format&fit=crop" alt="Sai Krishna Cycle Store Showroom Luxettipet" class="about-img" loading="lazy">
+                    <div class="floating-badge badge-1">✔ Trusted Local Business</div>
+                    <div class="floating-badge badge-2">🚲 Wholesale & Retail</div>
+                    <div class="floating-badge badge-3">⭐ Genuine Products</div>
+                    <div class="floating-badge badge-4">🛠 Expert Service</div>
+                </div>
+                <div class="about-content">
+                    <span class="sub-heading">About Our Store</span>
+                    <h2>Your Trusted Bicycle Shop in Luxettipet</h2>
+                    <p>Welcome to <strong>Sai Krishna Cycle Store</strong>, a trusted bicycle wholesale and retail store proudly serving Luxettipet, Mancherial, Chennur, Jannaram, Dharmapuri, and nearby areas. We offer high-quality bicycles, genuine spare parts, premium cycling accessories, and dependable repair services for customers of all ages.</p>
+                    <p>Whether you're buying your child's first bicycle, upgrading to a mountain bike, or purchasing bicycles in bulk for schools or businesses, we are committed to providing quality products, honest pricing, and exceptional customer service.</p>
+                    
+                    <ul class="feature-list">
+                        <li>Premium Quality Products</li>
+                        <li>Wholesale & Retail Sales</li>
+                        <li>Genuine Spare Parts</li>
+                        <li>Expert Bicycle Guidance</li>
+                    </ul>
+
+                    <div class="stats-row">
+                        <div class="stat-item">
+                            <span class="stat-icon">🚲</span>
+                            <span class="stat-number">10,000+</span>
+                            <span class="stat-text">Bicycles Sold</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-icon">😊</span>
+                            <span class="stat-number">5,000+</span>
+                            <span class="stat-text">Happy Customers</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-icon">🏆</span>
+                            <span class="stat-number">15+</span>
+                            <span class="stat-text">Years Experience</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-icon">⚙</span>
+                            <span class="stat-number">500+</span>
+                            <span class="stat-text">Spare Parts</span>
+                        </div>
+                    </div>
+
+                    <div class="about-buttons">
+                        <a href="#store-info" class="btn btn-primary">Visit Our Store</a>
+                        <a href="tel:7794079997" class="btn btn-outline">Call Now</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Choose Us -->
+        <section id="why-choose-us" class="why-us-section">
+            <div class="section-header text-center">
+                <h2>Why Choose Us</h2>
+                <p>The leading cycle dealer in Luxettipet</p>
+            </div>
+            <div class="why-grid">
+                <div class="why-card">
+                    <span class="why-icon">🛡️</span>
+                    <h3>Trusted Business</h3>
+                    <p>A highly reputed and trusted local business.</p>
+                </div>
+                <div class="why-card">
+                    <span class="why-icon">✅</span>
+                    <h3>Genuine Products</h3>
+                    <p>100% authentic bicycles and accessories.</p>
+                </div>
+                <div class="why-card">
+                    <span class="why-icon">💰</span>
+                    <h3>Affordable Prices</h3>
+                    <p>Honest pricing for retail and wholesale.</p>
+                </div>
+                <div class="why-card">
+                    <span class="why-icon">🚲</span>
+                    <h3>Wide Variety</h3>
+                    <p>Kids bikes, MTBs, Road bikes, and more.</p>
+                </div>
+                <div class="why-card">
+                    <span class="why-icon">📦</span>
+                    <h3>Wholesale & Retail</h3>
+                    <p>Supplying individuals and bulk orders.</p>
+                </div>
+                <div class="why-card">
+                    <span class="why-icon">👨‍🔧</span>
+                    <h3>Experienced Staff</h3>
+                    <p>Expert guidance and professional mechanics.</p>
+                </div>
+                <div class="why-card">
+                    <span class="why-icon">⚡</span>
+                    <h3>Fast Service</h3>
+                    <p>Quick and reliable bicycle repair services.</p>
+                </div>
+                <div class="why-card">
+                    <span class="why-icon">🤝</span>
+                    <h3>After-Sales Support</h3>
+                    <p>Excellent warranty and maintenance advice.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Our Services -->
+        <section id="services" class="services-section">
+            <div class="section-header text-center">
+                <h2>Our Services</h2>
+                <p>Comprehensive bicycle solutions under one roof</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card glass-card">
+                    <h3>Bicycle Sales</h3>
+                    <ul>
+                        <li>Kids Bicycles</li>
+                        <li>Mountain Bikes</li>
+                        <li>Road Bikes</li>
+                        <li>Hybrid Bikes</li>
+                        <li>Gear Cycles</li>
+                        <li>Non-Gear Cycles</li>
+                        <li>Ladies Cycles</li>
+                        <li>City Cycles</li>
+                    </ul>
+                </div>
+                <div class="service-card glass-card">
+                    <h3>Repair & Maintenance</h3>
+                    <ul>
+                        <li>General Service</li>
+                        <li>Brake Adjustment</li>
+                        <li>Gear Tuning</li>
+                        <li>Wheel Alignment</li>
+                        <li>Puncture Repair</li>
+                        <li>Chain Replacement</li>
+                        <li>Bearing Service</li>
+                        <li>Full Check-up</li>
+                    </ul>
+                </div>
+                <div class="service-card glass-card">
+                    <h3>Genuine Spare Parts</h3>
+                    <ul>
+                        <li>Tyres & Tubes</li>
+                        <li>Chains & Brake Pads</li>
+                        <li>Bearings & Pedals</li>
+                        <li>Seats & Free Wheels</li>
+                        <li>Brake Cables</li>
+                        <li>Handlebars</li>
+                        <li>Crank Sets</li>
+                        <li>Rims</li>
+                    </ul>
+                </div>
+                <div class="service-card glass-card">
+                    <h3>Bicycle Accessories</h3>
+                    <ul>
+                        <li>Helmets & Lights</li>
+                        <li>Locks & Bells</li>
+                        <li>Air Pumps</li>
+                        <li>Bottle Holders</li>
+                        <li>Mudguards & Gloves</li>
+                        <li>Phone Holders</li>
+                        <li>Reflectors</li>
+                        <li>Side Stands</li>
+                    </ul>
+                </div>
+                <div class="service-card glass-card highlight-card">
+                    <h3>Wholesale Supply</h3>
+                    <p>We supply bicycles and accessories at wholesale rates to dealers, retail shops, schools, colleges, sports academies, and government institutions.</p>
+                    <a href="tel:9100626844" class="btn btn-outline btn-small">Request Pricing</a>
+                </div>
+                <div class="service-card glass-card">
+                    <h3>Custom Assembly</h3>
+                    <p>We build and assemble custom bicycles meticulously according to exact customer requirements and preferences.</p>
+                </div>
+                <div class="service-card glass-card">
+                    <h3>After-Sales Support</h3>
+                    <ul>
+                        <li>Warranty Guidance</li>
+                        <li>Spare Parts Availability</li>
+                        <li>Maintenance Advice</li>
+                        <li>Service Reminders</li>
+                        <li>Customer Support</li>
+                    </ul>
+                </div>
+                <div class="service-card glass-card payment-options">
+                    <h3>Payment Options</h3>
+                    <div class="payment-icons">
+                        <span>💵 Cash</span>
+                        <span>📱 UPI</span>
+                        <span>💳 Debit Card</span>
+                        <span>💳 Credit Card</span>
+                        <span>🏦 Bank Transfer</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Categories -->
+        <section id="categories" class="categories-section">
+            <div class="section-header text-center">
+                <h2>Product Categories</h2>
+                <p>Find exactly what you're looking for</p>
+            </div>
+            <div class="categories-grid">
+                <div class="category-card">
+                    <img src="https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?q=80&w=400&auto=format&fit=crop" alt="Mountain Bikes" loading="lazy">
+                    <div class="cat-content">
+                        <h3>Mountain Bikes</h3>
+                        <p>Built for tough terrains and off-road adventures.</p>
+                        <a href="#bikes" class="btn cat-btn">Explore</a>
+                    </div>
+                </div>
+                <div class="category-card">
+                    <img src="https://images.unsplash.com/photo-1485965120184-e220f721d03e?q=80&w=400&auto=format&fit=crop" alt="Road Bikes" loading="lazy">
+                    <div class="cat-content">
+                        <h3>Road & Hybrid Bikes</h3>
+                        <p>Engineered for speed, city commutes, and fitness.</p>
+                        <a href="#bikes" class="btn cat-btn">Explore</a>
+                    </div>
+                </div>
+                <div class="category-card">
+                    <img src="https://images.unsplash.com/photo-1519782559530-bc2d184df9a4?q=80&w=400&auto=format&fit=crop" alt="Kids Bicycles" loading="lazy">
+                    <div class="cat-content">
+                        <h3>Kids Bicycles</h3>
+                        <p>Safe, colorful, and fun bikes for all ages.</p>
+                        <a href="#bikes" class="btn cat-btn">Explore</a>
+                    </div>
+                </div>
+                <div class="category-card">
+                    <img src="https://images.unsplash.com/photo-1593922899071-70bfb2d415de?q=80&w=400&auto=format&fit=crop" alt="Bicycle Accessories" loading="lazy">
+                    <div class="cat-content">
+                        <h3>Accessories & Spares</h3>
+                        <p>Helmets, lights, locks, and genuine spare parts.</p>
+                        <a href="#bikes" class="btn cat-btn">Explore</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Live Products Grid (Existing Reactivity) -->
+        <section id="bikes" class="products">
+            <div class="section-header text-center">
+                <h2>Our Live Inventory</h2>
+                <p>Browse our current stock of premium cycles</p>
+            </div>
+            <div class="product-grid" id="main-product-grid">
+                <!-- Products injected dynamically by script.js -->
+            </div>
+        </section>
+
+        <!-- Trust & Reviews -->
+        <section id="reviews" class="reviews-section">
+            <div class="reviews-container">
+                <div class="google-reviews-summary glass-card">
+                    <div class="g-rating">
+                        <h2>4.9</h2>
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                        <p>Based on 128+ Reviews</p>
+                    </div>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google Reviews" width="40" height="40" class="g-logo">
+                    <a href="https://maps.app.goo.gl/9hCi1WxGmaKL6bgg8" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Leave a Google Review</a>
+                </div>
+
+                <div class="testimonial-slider" id="testimonial-slider">
+                    <div class="testimonial-slide active">
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                        <p>"Excellent service and genuine bicycles. The owner guided me perfectly to buy a mountain bike for my son."</p>
+                        <span class="author">- Rajesh Kumar</span>
+                    </div>
+                    <div class="testimonial-slide">
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                        <p>"Best bicycle shop in Luxettipet. Highly recommend for bulk wholesale purchases for schools."</p>
+                        <span class="author">- Srinivas Reddy</span>
+                    </div>
+                    <div class="testimonial-slide">
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                        <p>"Affordable prices and friendly staff. Their repair service is very fast and reliable."</p>
+                        <span class="author">- Anil T.</span>
+                    </div>
+                    <div class="testimonial-slide">
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                        <p>"Highly recommended for bicycle servicing. Fixed my gear cycle perfectly."</p>
+                        <span class="author">- Karthik G.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq" class="faq-section">
+            <div class="section-header text-center">
+                <h2>Frequently Asked Questions</h2>
+            </div>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <button class="faq-question">Do you sell bicycles wholesale? <span class="faq-icon">+</span></button>
+                    <div class="faq-answer"><p>Yes, we are a leading wholesale supplier for bicycle dealers, retail shops, schools, and institutions.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">Do you repair all bicycle brands? <span class="faq-icon">+</span></button>
+                    <div class="faq-answer"><p>Yes, our expert mechanics handle servicing and repairs for all major domestic and international bicycle brands.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">Do you provide servicing? <span class="faq-icon">+</span></button>
+                    <div class="faq-answer"><p>Absolutely. We offer comprehensive servicing including gear tuning, brake adjustment, and full check-ups.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">Do you sell genuine spare parts? <span class="faq-icon">+</span></button>
+                    <div class="faq-answer"><p>Yes, we stock 100% genuine spare parts including tyres, tubes, chains, brake pads, and bearings.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">Which payment methods do you accept? <span class="faq-icon">+</span></button>
+                    <div class="faq-answer"><p>We accept Cash, UPI (PhonePe, Google Pay), Debit Cards, Credit Cards, and Bank Transfers.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">Can I order accessories separately? <span class="faq-icon">+</span></button>
+                    <div class="faq-answer"><p>Yes, we have a massive collection of premium accessories like helmets, lights, locks, and pumps sold separately.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">Do you assemble bicycles before delivery? <span class="faq-icon">+</span></button>
+                    <div class="faq-answer"><p>Yes, all retail bicycles are fully assembled, tuned, and tested by our mechanics before delivery.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blog Preview Section -->
+        <section class="blog-preview-section">
+            <div class="section-header text-center">
+                <h2>Cycling Resources & Tips</h2>
+                <p>Expert advice from our bicycle mechanics</p>
+            </div>
+            <div class="blog-grid">
+                <div class="blog-card glass-card">
+                    <h4>How to Choose the Right Bicycle</h4>
+                    <p>Learn the differences between road, mountain, and hybrid bikes to make the right choice.</p>
+                </div>
+                <div class="blog-card glass-card">
+                    <h4>Signs Your Bicycle Needs Servicing</h4>
+                    <p>Squeaky brakes or skipping gears? Find out when it's time to bring your cycle to the shop.</p>
+                </div>
+                <div class="blog-card glass-card">
+                    <h4>Essential Bicycle Accessories</h4>
+                    <p>From helmets to hydration, discover the must-have gear for a safe and comfortable ride.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Full Width CTA -->
+        <section class="cta-banner">
+            <div class="cta-content">
+                <h2>Ready to Find Your Perfect Bicycle?</h2>
+                <p>Visit our bicycle showroom in Luxettipet today for the best wholesale and retail prices on bicycles, accessories, spare parts, and servicing.</p>
+                <div class="cta-buttons">
+                    <a href="tel:7794079997" class="btn btn-primary cta-btn">📞 Call Now</a>
+                    <a href="https://wa.me/917794079997" class="btn btn-primary cta-btn whatsapp">💬 WhatsApp Us</a>
+                    <a href="https://maps.app.goo.gl/9hCi1WxGmaKL6bgg8" target="_blank" class="btn btn-outline cta-btn">📍 Get Directions</a>
+                </div>
+            </div>
+        </section>
     </main>
 
-    <!-- Footer & Contact -->
-    <footer>
-        <p>&copy; 2026 Sai Krishna Cycle Store. Built for fitness.</p>
-        <p class="contact-details">Contact us: <a href="tel:7794079997">7794079997</a> | <a href="tel:9100626844">9100626844</a> | <a href="#" id="open-cookie-preferences" style="font-weight: 400; text-decoration: underline;">Cookie Preferences</a></p>
+    <!-- Store Information & Footer -->
+    <footer id="store-info" class="site-footer">
+        <div class="footer-grid">
+            <div class="footer-col about-col">
+                <h3>Sai Krishna Cycle Store</h3>
+                <p>The leading wholesale and retail bicycle dealer in Luxettipet. Premium cycles, expert repair, and genuine spare parts.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook">FB</a>
+                    <a href="#" aria-label="Instagram">IG</a>
+                    <a href="#" aria-label="WhatsApp">WA</a>
+                </div>
+            </div>
+            
+            <div class="footer-col contact-col">
+                <h3>Contact Us</h3>
+                <ul>
+                    <li><strong>📍 Address:</strong> Main Road, Luxettipet, Telangana 504215 (Parking Available)</li>
+                    <li><strong>📞 Phone 1:</strong> <a href="tel:7794079997">7794079997</a></li>
+                    <li><strong>📞 Phone 2:</strong> <a href="tel:9100626844">9100626844</a></li>
+                    <li><strong>✉️ Email:</strong> <a href="mailto:info@saikrishnacyclestore.com">info@saikrishnacyclestore.com</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col hours-col">
+                <h3>Business Hours</h3>
+                <ul>
+                    <li>Monday: 9:00 AM - 8:30 PM</li>
+                    <li>Tuesday: 9:00 AM - 8:30 PM</li>
+                    <li>Wednesday: 9:00 AM - 8:30 PM</li>
+                    <li>Thursday: 9:00 AM - 8:30 PM</li>
+                    <li>Friday: 9:00 AM - 8:30 PM</li>
+                    <li>Saturday: 9:00 AM - 8:30 PM</li>
+                    <li>Sunday: 9:00 AM - 2:00 PM</li>
+                </ul>
+            </div>
+
+            <div class="footer-col map-col">
+                <!-- Google Maps Embed using the provided Maps link location for Luxettipet -->
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15206.13451558231!2d79.3106568!3d18.8876403!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a32dcbc664a7c1b%3A0x9f5c2b5ebf2f20c9!2sLuxettipet%2C%20Telangana!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" width="100%" height="200" style="border:0; border-radius: 8px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
         
-        <!-- WhatsApp Circular Button -->
-        <a href="https://wa.me/917794079997" target="_blank" class="whatsapp-btn" aria-label="Chat on WhatsApp">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor"><!--!Font Awesome Free 6.x.x by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157.1zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7 .9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3s19.9 53.7 22.7 57.4c2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Sai Krishna Cycle Store. All rights reserved. | <a href="#" id="open-cookie-preferences">Cookie Preferences</a></p>
+        </div>
+        
+        <!-- Floating WhatsApp Button -->
+        <a href="https://wa.me/917794079997" target="_blank" class="whatsapp-floating-btn" aria-label="Chat on WhatsApp">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157.1zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7 .9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3s19.9 53.7 22.7 57.4c2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg>
         </a>
     </footer>
-
-    <!-- Supabase JS SDK -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <!-- Custom Script -->
-    <script src="script.js"></script>
 
     <!-- DPDP Cookie Consent Banner -->
     <div id="cookie-consent-banner" class="cookie-banner" style="display: none;">
@@ -155,5 +616,10 @@
             </div>
         </div>
     </div>
+
+    <!-- Supabase JS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Custom Script -->
+    <script src="script.js"></script>
 </body>
 </html>
