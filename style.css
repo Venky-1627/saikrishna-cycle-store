@@ -1127,6 +1127,16 @@ footer {
     letter-spacing: 2px;
     margin-bottom: 10px;
 }
+.about-content p {
+    margin-bottom: 20px;
+    line-height: 1.8;
+    color: var(--text-secondary);
+}
+.about-content .lead-text {
+    font-size: 1.15rem;
+    color: var(--text-primary);
+    font-weight: 500;
+}
 .feature-list {
     list-style: none;
     padding: 0;
