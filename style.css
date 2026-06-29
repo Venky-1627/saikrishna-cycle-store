@@ -916,6 +916,38 @@ footer {
         padding: 40px 20px;
         width: 92%;
     }
+    
+    /* Stats & Features Mobile Fixes */
+    .stats-row {
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+    }
+    .stat-item {
+        width: 45%;
+        margin-bottom: 10px;
+    }
+    .feature-list {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Hero Buttons Mobile Fixes */
+    .hero-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+        width: 100%;
+    }
+    .hero-buttons .btn {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .marquee-title {
+        font-size: 1.1rem;
+        padding: 0 15px;
+    }
 }
 
 /* ------------------------
