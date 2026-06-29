@@ -69,9 +69,7 @@ h1, h2, h3, .logo {
     font-size: 1.8rem;
     font-weight: 900;
     letter-spacing: -0.5px;
-    background: linear-gradient(90deg, #ff0055, #ff5722);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #000000;
     text-transform: uppercase;
 }
 
