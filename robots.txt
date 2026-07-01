@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /login/
+Disallow: /private/
+
+Sitemap: https://saikrishna-cycle-store.vercel.app/sitemap.xml
